@@ -1,0 +1,19 @@
+// Compile contracts to json:
+truffle compile
+
+// Compile and migrate 
+truffle migrate
+// Note that truffle migrates in the order of the migration file names, which is why they are called 1_initial... and 2_depoy
+
+// Open truffle dev console:
+truffle console
+
+// Within truffle dev console, asynchronous com with blockchain:
+// For example, to get info for a specific smart contract:
+todoList = await TodoList.deployed()
+todoList
+
+// Get address of smart contract, public variable from smart contract
+todoList.address
+taskCount = await todoList.taskCount()
+taskCount.toNumber()
