@@ -25,5 +25,6 @@ contract TodoList {
     // Populate with some tasks upon deployment
     constructor() {
         createTask("Do this heinous act first!");
+        createTask("Do this heinous act second!");
     }
 }

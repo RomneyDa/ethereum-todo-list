@@ -29,5 +29,8 @@
     "nodemon": "^2.0.15",
     "truffle": "^5.4.31",
     "truffle-contract": "^4.0.31"
+  },
+  "dependencies": {
+    "@metamask/detect-provider": "^1.2.0"
   }
 }
