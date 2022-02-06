@@ -48,6 +48,7 @@ ul {
     -webkit-user-select: none;
     touch-action: manipulation;
     width: 20%;
+    margin-top: 50px;
 }
 
 .enableEthereumButton:disabled {

@@ -16,22 +16,26 @@
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://www.dallinromney.com" target="_blank">Eth Todo List</a>
-      <button id="connectButton" class="enableEthereumButton">Connect Ethereum</button>
       <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
-          <small><a class="nav-link" href="#"><span id="account"></span></a></small>
+        <li class="nav-item text-nowrap">
+            <small><a href="#"><span id="account"></span></a></small>
         </li>
+        <!-- <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
+          d  <small><a class="nav-link" href="#"><span id="account">BLAHHH</span></a></small>
+        </li> -->
       </ul>
     </nav>
+    <button id="connectButton" class="enableEthereumButton">Connect Ethereum</button>
     <div class="container-fluid">
       <div class="row">
         <main role="main" class="col-lg-12 d-flex justify-content-center">
           <div id="loader" class="text-center">
-            <p class="text-center">Loading...</p>
+            <p class="text-center">Loading/awaiting approval...</p>
           </div>
           <div id="content">
 
-            <form onSubmit="App.createTask(); return false;">
+            <form id="newTaskForm">
+                <!--  -->
               <input id="newTask" type="text" class="form-control" placeholder="Add task..." required>
               <input type="submit" hidden="">
             </form>

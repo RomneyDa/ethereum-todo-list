@@ -5,14 +5,14 @@ const App = {
     loading: false,
 
     load: async () => {
-        alert('loading')
+        // alert('loading')
         const loadSuccess = await App.loadWeb3();
         if (loadSuccess){
-            alert('loading account')
+            // alert('loading account')
             await App.loadAccount();
-            alert('loading contract')
+            // alert('loading contract')
             await App.loadContract();
-            alert('rendering')
+            // alert('rendering')
             await App.render();
         } else {
             alert('load failed');
@@ -92,11 +92,12 @@ const App = {
     
     loadContract: async() => {
         // try {
+            // Method of loading local contract with truffle
             const todoList = await $.getJSON('TodoList.json')
             App.contracts.TodoList = TruffleContract(todoList);
             App.contracts.TodoList.setProvider(window.ethereum)
             //console.log(todoList);
-    
+
             App.todoList = await App.contracts.TodoList.deployed();
         // }
         // catch(err){
@@ -115,11 +116,43 @@ const App = {
         App.setLoading(false);
     },
 
+    createTask: async (e) => {
+
+        App.setLoading(true)
+
+        // Get value entered in form
+        const content = $('#newTask').val()
+
+        // Create new task
+        await App.todoList.createTask(content, {from: App.account});
+
+        // Relist tasks
+        App.renderTasks();
+
+        App.setLoading(false);
+    },
+
+    toggleCompletion: async (e) => {
+        App.setLoading(true);
+
+        const taskId = e.target.name;
+        alert(taskId);
+        await App.todoList.toggleCompletion(taskId, {from: App.account});
+
+        App.renderTasks();
+        App.setLoading(false);
+    },
+
     renderTasks: async () => {
         // Load tasks from the blockchain
         const taskCount = await App.todoList.taskCount();
-        console.log("Task count:", taskCount.toNumber());
+        // console.log("Task count:", taskCount.toNumber());
         const $taskTemplate = $('.taskTemplate');
+
+        // Clear current tasks
+        document.querySelectorAll('.addedTask').forEach((node) => {
+            node.parentNode.removeChild(node);
+        })
 
         // Render out each task with a new task template
         for(var i = 1; i <= taskCount; i++){
@@ -132,8 +165,11 @@ const App = {
             $newTaskTemplate.find('.content').html(taskContent);
             $newTaskTemplate.find('input')
                             .prop('name', taskId)
-                            .prop('checked', taskCompleted);
-                            //.on('click', App.toggleCompleted)
+                            .prop('checked', taskCompleted)
+                            .on('click', App.toggleCompletion);
+
+            $newTaskTemplate.prop('class', "addedTask");
+                            
         
             if(taskCompleted) {
                 $('#completedTaskList').append($newTaskTemplate);
@@ -142,8 +178,7 @@ const App = {
             }
 
             $newTaskTemplate.show();
-        }
-                            
+        }                 
     },
 
     setLoading: (boolean) => {
@@ -160,15 +195,20 @@ const App = {
     }
 }
 
-// $(() => {
-//     $(window).load(() => {
-//         App.render();
-//     })
-// })
+$(() => {
+    $(window).load(() => {
+        App.load();
+    })
+})
 
 // Attach load event to Connect Ethereum button
 const $connectButton = $('#connectButton');
 $connectButton.on('click', App.load);
 
-
+// Control submit action for form:
+$("#newTaskForm").submit(function(e) {
+    
+    App.createTask();
+    e.preventDefault();
+});
 

@@ -17,3 +17,9 @@ todoList
 todoList.address
 taskCount = await todoList.taskCount()
 taskCount.toNumber()
+
+// Deploy contract to replace with new copy:
+truffle migrate --reset
+
+// run tests
+truffle test
